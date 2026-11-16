@@ -1,49 +1,52 @@
-# EasyLoad Shop Manager — Android Flutter Migration
+# EasyLoad Shop Manager — Android Flutter project
 
-This Android project is being migrated from the supplied Windows Tkinter `MOBILE LOAD` source. It uses local SQLite storage and includes the supplied EasyLoad logo and provider logo assets.
+This Flutter Android project is a migration baseline for the EasyLoad Shop Manager.
 
-## Included Android sections
-- Dashboard
-- Sales and Purchase
-- Stock Management / Products
-- EasyPaisa, JazzCash and EasyLoad service ledgers
-- Customers and supplier purchase summary
-- Payments / Receipts
-- Damaged / Lost Stock adjustments
-- EasyLoad Hisab / E Zero with Opening + 2 Day Load, Total Balance - Sale, and RSO Remaining - Transfer - RSO Katta formulas
-- Monthly estimated Profit & Loss
-- PDF report
-- Backup and Restore
-- QR / Barcode camera scanner
-- Settings and subscription screen
+## Subscription settings included
 
-## Subscription configuration
-- Free trial: 7 days
-- Monthly: PKR 500
-- Yearly: PKR 5,000
-- Manual payment: JazzCash / Easypaisa
-- Payment account title and number are configured in Settings.
+- Free trial: 7 days from the first app database initialization.
+- Monthly plan: PKR 500.
+- Yearly plan: PKR 5,000.
+- Payment method: manual JazzCash or Easypaisa.
+- Payment request fields: account email, payer name, payer mobile number, and transaction/reference ID.
+- Subscription states: trial, pending payment request, active subscription, and expired trial.
+- Admin can review/approve the latest pending request using the app's Admin PIN.
+- Subscription expiry is saved locally and checked when the app starts.
 
-**Important subscription limitation:** the current implementation stores payment requests and activation locally on the same device. It does not yet provide server-side accounts, email verification, remote approval, or automatic payment verification. It is a test/manual workflow, not a tamper-resistant commercial subscription service. Clearing app data/reinstalling may reset local trial state. A production subscription needs a secure backend and server-side validation.
+## Configure the receiving payment accounts
 
-## Android app icon
-The original `easyload_logo.png` from the supplied Windows project is included at `assets/easyload_logo.png`. GitHub Actions runs `dart run flutter_launcher_icons` to generate the Android launcher icon and sets the app label to **EasyLoad Shop Manager**.
+Open **Settings → Manual Subscription Payment Accounts** and enter:
+- JazzCash account title and number
+- Easypaisa account title and number
 
-## Build APK with GitHub Actions
-1. Upload this project folder to a GitHub repository.
-2. Open **Actions**.
-3. Run **Build Android APK** (or push to `main` / `master`).
-4. Download the `EasyLoad-Shop-Manager-APK` artifact after the workflow succeeds.
+Save settings. These details appear on the Subscription screen.
 
-## Migration notes / not yet production-complete
-- The supplied ZIP is a Windows Python/Tkinter app; it is not an Android source project. The Flutter pages are reimplementations, not a direct binary conversion.
-- No `records.db` database was present in the supplied ZIP, so existing Windows customer/stock records cannot be imported from this archive.
-- Full parity still requires device testing and completing edit/delete coverage, camera/USB scanner integration directly in Purchase and Sale forms, accurate item-level cost-of-goods profit calculations, and verification of all E Zero date-wise carry-forward and grid totals.
-- The Profit & Loss page is clearly marked as an estimate until item-level cost tracking is completed.
-- The APK has not been compiled in this environment because Flutter/Dart SDKs are not installed here. Use the included GitHub Actions workflow to build and share any error log for correction.
+## Important deployment limitations
 
-## First login
-- Username: `admin`
-- Password/PIN: `1234`
+This archive adds a local/offline subscription workflow only. It does **not** yet include verified email registration, a cloud backend, remote payment-request delivery, automatic bank/JazzCash/Easypaisa transaction verification, or server-side subscription enforcement. The payment request is stored on the current device; local Admin approval is intended for development/testing and is not a secure production subscription service. For a production multi-customer subscription service, a backend with authenticated accounts and server-side payment verification/activation is required.
 
-Change these in Settings after login.
+The 7-day trial timestamp is stored in the local SQLite database. Clearing app data or reinstalling may reset a local-only trial; server-side trial enforcement is not included.
+
+## Existing app modules
+
+Local SQLite login, dashboard, stock, purchase, sale, mobile services, E Zero/RSO formulas, customers, payments, expenses, PDF report, local backup, and settings.
+
+The E Zero formulas remain:
+- Total Balance = Opening Balance + 2 Day Load
+- Remaining = Total Balance - Sale
+- Remaining Ledger = RSO Total Remaining - Today Transfer - RSO Katta
+
+## Build
+
+Push this folder to GitHub and use the included `.github/workflows/build-apk.yml` workflow, or run:
+
+```bash
+flutter pub get
+flutter build apk --release
+```
+
+The build requires Flutter and the Android SDK. This environment did not compile the APK, so the source changes still need a GitHub Actions or local Flutter build/test.
+
+
+### Network logos in their matching sections
+The Services screen now shows each provider logo beside its matching provider name as selectable tiles (Jazz, Zong, Telenor, Ufone, SCO, ONIC, One Load, and other service entries). The E Zero / RSO company selector also displays the matching logo next to the provider name and shows the selected provider logo above the ledger fields.

@@ -19,17 +19,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
-  flutter_launcher_icons: ^0.14.2
 flutter:
   uses-material-design: true
   assets:
-    - assets/easyload_logo.png
     - assets/provider_logos/
-
-flutter_launcher_icons:
-  android: true
-  ios: false
-  image_path: assets/easyload_logo.png
-  min_sdk_android: 21
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: assets/easyload_logo.png
+    - assets/easyload_logo.png
