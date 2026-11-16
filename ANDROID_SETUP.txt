@@ -1,0 +1,3 @@
+After first `flutter create`, edit android/app/src/main/AndroidManifest.xml:
+Add `<uses-permission android:name="android.permission.CAMERA"/>` directly inside `<manifest>`.
+The current migration baseline does not yet activate the camera scanner dependency.
