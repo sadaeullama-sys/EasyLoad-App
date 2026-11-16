@@ -1,4 +1,4 @@
-name: easeload_app
+name: Build Android APK
 on:
   workflow_dispatch:
   push:
