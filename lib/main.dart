@@ -96,7 +96,6 @@ class _LoginState extends State<Login>{
  const Text('First login: admin / 1234',style:TextStyle(fontSize:12,color:Colors.grey))
  ])))));
  }
-}
 class Home extends StatefulWidget {const Home({super.key});@override State<Home> createState()=>_HomeState();}
 class _HomeState extends State<Home>{
  int ix=0; final names=['Dashboard','Stock','Purchase','Sale','Services','E Zero / RSO','Customers','Payments','Expenses','Reports','Settings'];
