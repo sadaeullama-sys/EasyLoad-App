@@ -14,14 +14,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.5'
           channel: stable
 
-      - name: Create Android Project
-        run: flutter create --project-name=easeload_shop_manager --platforms=android --org com.ilyasmobile .
+      - name: Configure Java
+        run: flutter config --jdk-dir="$JAVA_HOME"
+
+      - name: Check Java and Flutter
+        run: |
+          java -version
+          flutter doctor -v
+
+      - name: Create Fresh Android Project
+        run: |
+          rm -rf android
+          flutter create --project-name=easeload_shop_manager --platforms=android --org com.ilyasmobile .
 
       - name: Get Dependencies
         run: flutter pub get
